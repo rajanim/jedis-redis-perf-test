@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RedisOperations {
 
-   @BenchmarkMode(Mode.All)
+   @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     @Measurement(iterations = 12, time = 1)
     @Fork(value = 1, jvmArgs = {"-Xms2G", "-Xmx2G"})
@@ -25,7 +25,7 @@ public class RedisOperations {
        redisOperations.setHash(key,RedisOperations.getUser());
     }
 
-    @BenchmarkMode(Mode.All)
+    @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     @Measurement(iterations = 12, time = 1)
     @Fork(value = 1, jvmArgs = {"-Xms2G", "-Xmx2G"})

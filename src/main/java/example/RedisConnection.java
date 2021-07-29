@@ -14,9 +14,9 @@ public class RedisConnection {
 
     private static JedisPoolConfig buildPoolConfig() {
         final JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxTotal(128);
-        poolConfig.setMaxIdle(128);
-        poolConfig.setMinIdle(16);
+        poolConfig.setMaxTotal(1000);
+        poolConfig.setMaxIdle(8);
+        poolConfig.setMinIdle(8);
         poolConfig.setTestOnBorrow(true);
         poolConfig.setTestOnReturn(true);
         poolConfig.setTestWhileIdle(true);
