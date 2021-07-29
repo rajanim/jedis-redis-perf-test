@@ -7,24 +7,23 @@ import java.time.Duration;
 
 public class RedisConnection {
 
-    private final static String REDIS_HOST = "localhost";
-    private final static int REDIS_PORT = 6379;
+    private final static String REDIS_HOST = "xx.xx.xx.xxx";
+    private final static int REDIS_PORT = 14092;
     private final static JedisPoolConfig POOL_CONFIG = buildPoolConfig();
     private final static JedisPool JEDIS_POOL = new JedisPool(POOL_CONFIG, REDIS_HOST, REDIS_PORT);
 
-    private static JedisPoolConfig buildPoolConfig() {
+    public static JedisPoolConfig buildPoolConfig() {
         final JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxTotal(1000);
+        poolConfig.setMaxTotal(128);
         poolConfig.setMaxIdle(8);
         poolConfig.setMinIdle(8);
-        poolConfig.setTestOnBorrow(true);
-        poolConfig.setTestOnReturn(true);
-        poolConfig.setTestWhileIdle(true);
+        poolConfig.setTestOnBorrow(false);
+        poolConfig.setTestOnReturn(false);
+        poolConfig.setTestWhileIdle(false);
         poolConfig.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
         poolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
         poolConfig.setNumTestsPerEvictionRun(3);
-        poolConfig.setBlockWhenExhausted(true);
-
+        poolConfig.setBlockWhenExhausted(false);
         return poolConfig;
     }
 

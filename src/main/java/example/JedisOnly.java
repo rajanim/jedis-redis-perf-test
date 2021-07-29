@@ -12,14 +12,17 @@ import java.util.concurrent.TimeUnit;
 
 public class JedisOnly {
 
+    static String redisHost = "34.75.51.112";
+    static int redisPort = 14092;
+    static int timeout = 1800;
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     @Measurement(iterations = 10, time = 1)
     @Fork(value = 1, jvmArgs = {"-Xms2G", "-Xmx2G"})
-    @Warmup(iterations = 2, time = 1)
+    @Warmup(iterations = 5, time = 1)
     @Benchmark
     public static void setHash() {
-        Jedis jedis = new Jedis("localhost", 6379,1800);
+        Jedis jedis = new Jedis(redisHost, redisPort,timeout);
         JedisOnly helper = new JedisOnly();
             String key = helper.getUserKey();
             jedis.hmset(key, helper.getUser());
@@ -30,10 +33,10 @@ public class JedisOnly {
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     @Measurement(iterations = 10, time = 1)
     @Fork(value = 1, jvmArgs = {"-Xms2G", "-Xmx2G"})
-    @Warmup(iterations = 2, time = 1)
+    @Warmup(iterations = 5, time = 1)
     @Benchmark
     public Map<String, String> getHash() {
-        Jedis jedis = new Jedis("localhost", 6379,1800);
+        Jedis jedis = new Jedis(redisHost, redisPort,timeout);
             Map<String, String> user = jedis.hgetAll(getUserKey());
             return user;
     }

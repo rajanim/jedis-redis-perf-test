@@ -15,6 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 public class ConnectionPoolReCreatedRedisOperations {
 
+    private final static String REDIS_HOST = "34.75.51.112";
+    private final static int REDIS_PORT = 14092;
+    private static int TIME_OUT= 1800;
+
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     @Measurement(iterations = 10, time = 1)
@@ -23,8 +27,8 @@ public class ConnectionPoolReCreatedRedisOperations {
     @Benchmark
     public static void setHash() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(10);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,"localhost", 6379,1800);
+        //jedisPoolConfig.setMaxTotal(128);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig,REDIS_HOST, REDIS_PORT,TIME_OUT);
         try (Jedis jedis = jedisPool.getResource()) {
             ConnectionPoolReCreatedRedisOperations redisOperations = new ConnectionPoolReCreatedRedisOperations();
             String key = redisOperations.getUserKey();
@@ -40,9 +44,9 @@ public class ConnectionPoolReCreatedRedisOperations {
     @Benchmark
     public Map<String, String> getHash() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(1000);
-       jedisPoolConfig.setMaxWaitMillis(100000);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,"localhost", 6379,1800);
+      //  jedisPoolConfig.setMaxTotal(128);
+       //jedisPoolConfig.setMaxWaitMillis(100000);
+       JedisPool jedisPool = new JedisPool(jedisPoolConfig,REDIS_HOST, REDIS_PORT,TIME_OUT);
         try (Jedis jedis = jedisPool.getResource()) {
             Map<String, String> user = jedis.hgetAll(getUserKey());
             return user;
@@ -59,7 +63,7 @@ public class ConnectionPoolReCreatedRedisOperations {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(10);
         jedisPoolConfig.setMaxWaitMillis(100000);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,"localhost", 6379,1800);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig,REDIS_HOST, REDIS_PORT,TIME_OUT);
         try (Jedis jedis = jedisPool.getResource()) {
             String key = getUserKey();
             Map<String, String> user = jedis.hgetAll(key);
